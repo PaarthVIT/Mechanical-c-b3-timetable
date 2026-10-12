@@ -27,15 +27,15 @@ button.active{background:var(--ink);color:#fff;border-color:var(--ink)}.spacer{f
 .empty{font-size:26px;font-weight:850;margin:22px 0 8px}.sub{color:var(--muted);line-height:1.6}
 .classlist{display:grid;gap:10px}.classitem{border:1px solid var(--line);border-left:6px solid var(--accent);background:var(--tint);border-radius:14px;padding:13px 14px;display:flex;gap:12px;justify-content:space-between;align-items:center}
 .classitem h3{margin:0 0 4px;font-size:16px}.classitem p{margin:0;color:#4f566d;font-size:13px}.classitem .time{white-space:nowrap;font-weight:850;font-size:14px}.tag{font-size:11px;background:#fff;border:1px solid #d7dbe7;border-radius:6px;padding:3px 6px;display:inline-block;margin-top:5px;font-weight:750}
-.weekhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.weekgrid{display:grid;grid-template-columns:48px repeat(5,minmax(0,1fr));margin-top:14px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
+.weekhead{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}.weekgrid{display:grid;grid-template-columns:48px repeat(6,minmax(105px,1fr));min-width:760px;margin-top:14px;border-top:1px solid var(--line);border-left:1px solid var(--line)}
 .timecol,.daycol{min-width:0}.timecell{height:74px;border-bottom:1px solid var(--line);padding:5px 3px;font-size:11px;color:var(--muted);text-align:right}
 .dayhead{height:46px;text-align:center;font-size:12px;font-weight:850;border-right:1px solid var(--line);padding:5px 1px;background:#fafaff}.dayhead small{display:block;color:var(--muted);font-weight:500}
-.daybody{height:592px;position:relative;border-right:1px solid var(--line);background:repeating-linear-gradient(to bottom,#fff 0,#fff 73px,#d9dce5 73px,#d9dce5 74px)}
+.daybody{height:740px;position:relative;border-right:1px solid var(--line);background:repeating-linear-gradient(to bottom,#fff 0,#fff 73px,#d9dce5 73px,#d9dce5 74px)}
 .event{position:absolute;left:3px;right:3px;border-radius:9px;padding:5px 5px;font-size:11px;line-height:1.18;font-weight:800;overflow:hidden;border-left:4px solid var(--accent);background:var(--tint);color:#242a45}
 .event small{display:block;background:#fff;border:1px solid #d7dbe7;border-radius:5px;padding:2px 3px;margin-top:4px;width:max-content;max-width:100%;font-size:10px}
 .nowline{position:absolute;left:0;right:0;height:3px;background:#e53d53;z-index:3;pointer-events:none}.nowline:before{content:"";position:absolute;left:-3px;top:-4px;width:10px;height:10px;border-radius:50%;background:#e53d53}.nowlabel{position:absolute;left:-45px;top:-10px;background:#e53d53;color:white;border-radius:8px;padding:3px 5px;font-size:10px;font-weight:800}
 .note{font-size:13px;color:var(--muted);line-height:1.6;margin:12px 0 0}
-@media(max-width:560px){.wrap{padding:16px 12px 32px}.brand{font-size:30px}.hero{padding:20px 17px}.panel{padding:14px}.weekgrid{grid-template-columns:38px repeat(5,minmax(58px,1fr));overflow:visible}.weekpanel{overflow-x:auto}.dayhead,.event{font-size:10px}.daybody{height:592px}.timecell{font-size:10px}.clock{font-size:39px}.classitem{align-items:flex-start}.classitem .time{font-size:12px}}
+@media(max-width:560px){.wrap{padding:16px 12px 32px}.brand{font-size:30px}.hero{padding:20px 17px}.panel{padding:14px}.weekgrid{grid-template-columns:38px repeat(6,minmax(88px,1fr));overflow:visible}.weekpanel{overflow-x:auto}.dayhead,.event{font-size:10px}.daybody{height:740px}.timecell{font-size:10px}.clock{font-size:39px}.classitem{align-items:flex-start}.classitem .time{font-size:12px}}
 </style>
 </head>
 <body>
@@ -72,7 +72,7 @@ button.active{background:var(--ink);color:#fff;border-color:var(--ink)}.spacer{f
   <section class="panel weekpanel">
     <div class="weekhead"><h2 style="margin:0">This week</h2><span class="sub" id="weekrange">B3 · weekly schedule</span></div>
     <div class="weekgrid" id="weekgrid"></div>
-    <p class="note">Times and rooms are based on the timetable visible in your reference screenshots. Verify against your official college timetable if it changes.</p>
+    <p class="note">Schedule transcribed from the official ME-C Semester 1 timetable PDF for lab batch B3. Monday and Sunday have no scheduled classes.</p>
   </section>
   <p class="note">Made for Mechanical-C · B3. Clock and countdown use India Standard Time (IST). No login or tracking.</p>
 </div>
@@ -86,29 +86,35 @@ const subjects = {
   robotics:{name:"Robotics",short:"Robotics",color:"#b95724",tint:"#f6e6df"},
   calculus:{name:"Calculus",short:"Calculus",color:"#3864d8",tint:"#e3e9fb"},
   design:{name:"Design Thinking",short:"Design Thinking",color:"#9a8116",tint:"#f0eddf"},
-  german:{name:"German",short:"German",color:"#bd4b21",tint:"#f6e6df"},
   english:{name:"English",short:"English",color:"#cc9bb8",tint:"#f7edf3"}
 };
 // weekday index: Monday=0. Times use 24h.
 const classes = [
+ // Tuesday
  {d:1,s:8,e:9,k:"logic",r:"E214",type:"Theory"},
  {d:1,s:9,e:10,k:"logic",r:"E214",type:"Theory"},
  {d:1,s:10,e:11,k:"env",r:"E214",type:"Theory"},
  {d:1,s:12,e:13,k:"robotics",r:"E309",type:"Theory"},
  {d:1,s:13,e:14,k:"calculus",r:"E309",type:"Theory"},
+ // Wednesday
  {d:2,s:8,e:9,k:"env",r:"E312",type:"Theory"},
  {d:2,s:9,e:10,k:"programming",r:"E312",type:"Theory"},
- {d:2,s:10,e:11,k:"programming",r:"E112",type:"Lab"},
- {d:2,s:11,e:12,k:"programming",r:"E112",type:"Lab"},
- {d:3,s:8,e:9,k:"robotics",r:"E301",type:"Theory"},
- {d:3,s:9,e:10,k:"robotics",r:"E301",type:"Theory"},
+ {d:2,s:10,e:12,k:"programming",r:"E112",type:"Lab · B3"},
+ // Thursday
+ {d:3,s:8,e:10,k:"robotics",r:"E301",type:"Lab · B3"},
  {d:3,s:10,e:11,k:"design",r:"E303",type:"Theory"},
+ {d:3,s:12,e:13,k:"english",r:"E309",type:"Theory"},
  {d:3,s:13,e:14,k:"calculus",r:"E309",type:"Theory"},
- {d:3,s:16,e:18,k:"german",r:"E305",type:"Language"},
- {d:4,s:10,e:11,k:"english",r:"E303",type:"Language (alternate)"},
+ // Friday
+ {d:4,s:10,e:11,k:"english",r:"E303",type:"Theory"},
  {d:4,s:11,e:12,k:"env",r:"E303",type:"Theory"},
  {d:4,s:13,e:14,k:"design",r:"E309",type:"Theory"},
- {d:4,s:14,e:15,k:"calculus",r:"E302",type:"Theory"}
+ {d:4,s:14,e:15,k:"calculus",r:"E302",type:"Tutorial · B3"},
+ // Saturday
+ {d:5,s:10,e:11,k:"calculus",r:"E215",type:"Theory"},
+ {d:5,s:13,e:14,k:"programming",r:"E209",type:"Theory"},
+ {d:5,s:15,e:17,k:"programming",r:"D305",type:"Lab · B3"},
+ {d:5,s:17,e:18,k:"robotics",r:"E209",type:"Theory"}
 ];
 let use24=false, selectedDay=(new Date().getDay()+6)%7;
 function pad(n){return String(n).padStart(2,"0")}
@@ -124,9 +130,9 @@ function renderHero(n){const up=allUpcoming(n);const current=up.find(c=>c.start<
 const diff=Math.max(0,next.start-n);if(current){e.textContent="YOU'RE IN CLASS";count.textContent="Ends in "+Math.floor((current.end-n)/60000)+" min";}else{e.textContent="UP NEXT";let sec=Math.floor(diff/1000),daysLeft=Math.floor(sec/86400),hrs=Math.floor(sec%86400/3600),mins=Math.floor(sec%3600/60),secs=sec%60;count.textContent=daysLeft?`${daysLeft}d ${hrs}h ${mins}m`:`${pad(hrs)}:${pad(mins)}:${pad(secs)}`;}
 const c=current||next, sub=subjects[c.k], dayName=days[c.d];document.getElementById("heroSubject").textContent=sub.name;document.getElementById("heroRoom").textContent=c.r;document.getElementById("heroMeta").textContent=`${c.type} · ${dayName} · ${fmtTime(c.s)}–${fmtTime(c.e)}`;document.getElementById("heroDetail").textContent=current?`Currently scheduled until ${fmtTime(current.e)} in room ${current.r}.`:`Next up: ${sub.name} on ${dayName} at ${fmtTime(c.s)}, room ${c.r}.`;document.getElementById("jumpNext").onclick=()=>{selectedDay=c.d;renderSelected();document.getElementById("selectedHeading").scrollIntoView({behavior:"smooth",block:"start"})}}
 function renderDays(){const n=nowIST(), strip=document.getElementById("daystrip");strip.innerHTML="";const start=weekStart(n);for(let i=0;i<7;i++){let d=new Date(start);d.setDate(start.getDate()+i);const count=classes.filter(c=>c.d===i).length;let b=document.createElement("button");b.className="daybtn"+(i===selectedDay?" selected":"");b.innerHTML=`${i===(n.getDay()+6)%7?"🔴 ":""}${shortDays[i]}<small>${d.getDate()} ${d.toLocaleDateString("en-IN",{month:"short"})}</small><small>${count?count+" classes":"No classes"}</small>`;b.onclick=()=>{selectedDay=i;renderDays();renderSelected()};strip.appendChild(b)}}
-function renderSelected(){const n=nowIST();document.getElementById("selectedHeading").textContent=`${days[selectedDay]}, ${new Date(weekStart(n).getTime()+selectedDay*86400000).toLocaleDateString("en-IN",{day:"numeric",month:"long"})}`;let arr=classes.filter(c=>c.d===selectedDay).sort((a,b)=>a.s-b.s);const root=document.getElementById("selectedContent");if(!arr.length){root.innerHTML=`<div class="empty">No classes scheduled</div><p class="sub">Sunday has no classes. Check the weekly view for your next college day.</p>`;return}root.innerHTML='<div class="classlist">'+arr.map(c=>{let s=subjects[c.k];return `<div class="classitem" style="--accent:${s.color};--tint:${s.tint}"><div><h3>${s.name}</h3><p>${c.type} · Room ${c.r}</p></div><div class="time">${fmtTime(c.s)}–${fmtTime(c.e)}</div></div>`}).join("")+'</div>'}
-function renderWeek(){const grid=document.getElementById("weekgrid"),n=nowIST();grid.innerHTML='<div class="timecol"><div class="dayhead">IST</div>'+Array.from({length:10},(_,i)=>`<div class="timecell">${fmtTime(i+8)}</div>`).join("")+'</div>';for(let d=0;d<5;d++){let dt=new Date(weekStart(n));dt.setDate(dt.getDate()+d);let col=document.createElement("div");col.className="daycol";col.innerHTML=`<div class="dayhead">${shortDays[d]}<small>${dt.getDate()} ${dt.toLocaleDateString("en-IN",{month:"short"})}</small></div><div class="daybody" id="body${d}"></div>`;grid.appendChild(col);classes.filter(c=>c.d===d).forEach(c=>{let s=subjects[c.k],ev=document.createElement("div");ev.className="event";ev.style.cssText=`--accent:${s.color};--tint:${s.tint};top:${(c.s-8)*74+2}px;height:${(c.e-c.s)*74-4}px`;ev.innerHTML=`${s.short}<small>${c.r}</small>`;col.querySelector(".daybody").appendChild(ev)})}renderWeekLine(n)}
-function renderWeekLine(n){document.querySelectorAll(".nowline").forEach(x=>x.remove());let d=(n.getDay()+6)%7;if(d>4)return;let body=document.getElementById("body"+d);if(!body)return;let mins=n.getHours()*60+n.getMinutes()-8*60;if(mins<0||mins>600)return;let line=document.createElement("div");line.className="nowline";line.style.top=(mins/60*74)+"px";let label=document.createElement("span");label.className="nowlabel";label.textContent=n.toLocaleTimeString("en-IN",{hour:"numeric",minute:"2-digit",hour12:!use24,timeZone:"Asia/Kolkata"});line.appendChild(label);body.appendChild(line)}
+function renderSelected(){const n=nowIST();document.getElementById("selectedHeading").textContent=`${days[selectedDay]}, ${new Date(weekStart(n).getTime()+selectedDay*86400000).toLocaleDateString("en-IN",{day:"numeric",month:"long"})}`;let arr=classes.filter(c=>c.d===selectedDay).sort((a,b)=>a.s-b.s);const root=document.getElementById("selectedContent");if(!arr.length){root.innerHTML=`<div class="empty">No classes scheduled</div><p class="sub">You have no classes scheduled for ${days[selectedDay]}. Check the weekly view for your next college day.</p>`;return}root.innerHTML='<div class="classlist">'+arr.map(c=>{let s=subjects[c.k];return `<div class="classitem" style="--accent:${s.color};--tint:${s.tint}"><div><h3>${s.name}</h3><p>${c.type} · Room ${c.r}</p></div><div class="time">${fmtTime(c.s)}–${fmtTime(c.e)}</div></div>`}).join("")+'</div>'}
+function renderWeek(){const grid=document.getElementById("weekgrid"),n=nowIST();grid.innerHTML='<div class="timecol"><div class="dayhead">IST</div>'+Array.from({length:10},(_,i)=>`<div class="timecell">${fmtTime(i+8)}</div>`).join("")+'</div>';for(let d=0;d<6;d++){let dt=new Date(weekStart(n));dt.setDate(dt.getDate()+d);let col=document.createElement("div");col.className="daycol";col.innerHTML=`<div class="dayhead">${shortDays[d]}<small>${dt.getDate()} ${dt.toLocaleDateString("en-IN",{month:"short"})}</small></div><div class="daybody" id="body${d}"></div>`;grid.appendChild(col);classes.filter(c=>c.d===d).forEach(c=>{let s=subjects[c.k],ev=document.createElement("div");ev.className="event";ev.style.cssText=`--accent:${s.color};--tint:${s.tint};top:${(c.s-8)*74+2}px;height:${(c.e-c.s)*74-4}px`;ev.innerHTML=`${s.short}<small>${c.r}</small>`;col.querySelector(".daybody").appendChild(ev)})}renderWeekLine(n)}
+function renderWeekLine(n){document.querySelectorAll(".nowline").forEach(x=>x.remove());let d=(n.getDay()+6)%7;if(d>5)return;let body=document.getElementById("body"+d);if(!body)return;let mins=n.getHours()*60+n.getMinutes()-8*60;if(mins<0||mins>600)return;let line=document.createElement("div");line.className="nowline";line.style.top=(mins/60*74)+"px";let label=document.createElement("span");label.className="nowlabel";label.textContent=n.toLocaleTimeString("en-IN",{hour:"numeric",minute:"2-digit",hour12:!use24,timeZone:"Asia/Kolkata"});line.appendChild(label);body.appendChild(line)}
 document.getElementById("format").onclick=()=>{use24=false;document.getElementById("format").classList.add("active");document.getElementById("format24").classList.remove("active");renderClock();renderDays();renderSelected();renderWeek()};
 document.getElementById("format24").onclick=()=>{use24=true;document.getElementById("format24").classList.add("active");document.getElementById("format").classList.remove("active");renderClock();renderDays();renderSelected();renderWeek()};
 document.getElementById("todayBtn").onclick=()=>{selectedDay=(nowIST().getDay()+6)%7;renderDays();renderSelected()};
